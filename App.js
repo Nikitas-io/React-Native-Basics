@@ -1,11 +1,31 @@
+import {useState} from 'react'
 import { Button, StyleSheet, Text, TextInput, View } from "react-native";
 
 export default function App() {
+  // The enteredGoalText is the functional component's state which is updated through the 
+  // setEnteredGoalText function and is initially set to an empty string through useState.
+  const [enteredGoalText, setEnteredGoalText] = useState('');
+
+  function goalInputHandler(enteredText) {
+    setEnteredGoalText(enteredText);
+  }
+  
+  function addGoalHandler() {
+    console.log('The entered text: ', enteredGoalText);
+  }
+
   return (
     <View style={styles.appContainer}>
       <View style={styles.inputContainer}>
-        <TextInput style={styles.textInput} placeholder="Write your goal"/>
-        <Button title="Add goal"/>
+        <TextInput 
+          style={styles.textInput} 
+          placeholder="Write your goal"
+          onChangeText={goalInputHandler}
+        />
+        <Button 
+          title="Add goal"
+          onPress={addGoalHandler}
+        />
       </View>
       <View style={styles.goalContainer}>
         <Text style={styles.goalList}>The goal list: </Text>
