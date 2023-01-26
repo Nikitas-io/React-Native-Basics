@@ -5,6 +5,8 @@ export default function App() {
   // The enteredGoalText is the functional component's state which is updated through the 
   // setEnteredGoalText function and is initially set to an empty string through useState.
   const [enteredGoalText, setEnteredGoalText] = useState('');
+  // The goals state holds an array of all the goals.
+  const [goals, setGoals] = useState([]);
 
   function goalInputHandler(enteredText) {
     setEnteredGoalText(enteredText);
@@ -12,6 +14,8 @@ export default function App() {
   
   function addGoalHandler() {
     console.log('The entered text: ', enteredGoalText);
+
+    setGoals(currentGoals => [...currentGoals, enteredGoalText]);
   }
 
   return (
