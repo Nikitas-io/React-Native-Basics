@@ -14,8 +14,8 @@ export default function App() {
   
   function addGoalHandler() {
     console.log('The entered text: ', enteredGoalText);
-
     setGoals(currentGoals => [...currentGoals, enteredGoalText]);
+    console.log('All the goals: ', goals);
   }
 
   return (
@@ -33,6 +33,11 @@ export default function App() {
       </View>
       <View style={styles.goalContainer}>
         <Text style={styles.goalList}>The goal list: </Text>
+        {goals.map((goal, index) => {
+          return (
+            <Text key={index}>{goal}</Text>
+          )
+        })}
       </View>
     </View>
   );
@@ -64,6 +69,7 @@ const styles = StyleSheet.create({
     borderTopColor: "gray",
     borderTopWidth: 1,
     marginTop: 23,
-    paddingTop: 10
+    paddingTop: 10,
+    fontWeight: "bold"
   }
 });
