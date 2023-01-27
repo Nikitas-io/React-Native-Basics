@@ -1,5 +1,5 @@
 import {useState} from 'react'
-import { Button, StyleSheet, Text, TextInput, View } from "react-native";
+import { Button, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 
 export default function App() {
   // The enteredGoalText is the functional component's state which is updated through the 
@@ -32,12 +32,16 @@ export default function App() {
         />
       </View>
       <View style={styles.goalContainer}>
-        <Text style={styles.goalList}>The goal list: </Text>
-        {goals.map((goal, index) => {
-          return (
-            <Text key={index}>{goal}</Text>
-          )
-        })}
+        <ScrollView>
+          <Text style={styles.goalList}>The goal list: </Text>
+          {goals.map((goal, index) => {
+            return (
+              <View key={index} style={styles.listItem}>
+                <Text style={styles.text}>{goal}</Text>
+              </View>
+            )
+          })}
+        </ScrollView>
       </View>
     </View>
   );
@@ -71,5 +75,15 @@ const styles = StyleSheet.create({
     marginTop: 23,
     paddingTop: 10,
     fontWeight: "bold"
+  },
+  listItem: {
+    backgroundColor: "purple",
+    borderRadius: 5,
+    padding: 10,
+    marginVertical: 5,
+    alignSelf: "flex-start"
+  },
+  text: {
+    color: "white",
   }
 });
