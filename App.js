@@ -1,20 +1,15 @@
 import {useState} from 'react'
-import { Button, FlatList, StyleSheet, Text, TextInput, View } from "react-native";
+import { FlatList, StyleSheet, Text, View, Button } from "react-native";
 
+import GoalInput from './components/GoalInput';
 import GoalItem from './components/GoalItem';
 
 export default function App() {
-  // The enteredGoalText is the functional component's state which is updated through the 
-  // setEnteredGoalText function and is initially set to an empty string through useState.
-  const [enteredGoalText, setEnteredGoalText] = useState('');
+  
   // The goals state holds an array of all the goals.
   const [goals, setGoals] = useState([]);
-
-  function goalInputHandler(enteredText) {
-    setEnteredGoalText(enteredText);
-  }
   
-  function addGoalHandler() {
+  function addGoalHandler(enteredGoalText) {
     setGoals(currentGoals => [
       ...currentGoals, 
       {
@@ -24,27 +19,24 @@ export default function App() {
     ]);
   }
 
+  function deleteGoalHandler(id) {
+    console.log('delete')
+    // Return all the goals except from the one that we want to delete.
+    setGoals(currentGoals => currentGoals.filter((goal) => goal.id !== id))
+  }
+
   return (
     <View style={styles.appContainer}>
-      <View style={styles.inputContainer}>
-        <TextInput 
-          style={styles.textInput} 
-          placeholder="Write your goal"
-          onChangeText={goalInputHandler}
-        />
-        <Button 
-          title="Add goal"
-          onPress={addGoalHandler}
-        />
-      </View>
+      <Button title="Add new goal" color="purple"/>
+      <GoalInput addGoalHandler={addGoalHandler}/>
       <View style={styles.goalContainer}>
         <Text style={styles.goalList}>The goal list: </Text>
         <FlatList 
           data={goals}
           renderItem={(goalData) => {
-            return <GoalItem text={goalData.item.text}/>
+            return <GoalItem text={goalData.item.text} onDeleteItem={deleteGoalHandler} id={goalData.item.id} />
           }}  
-          keyExtractor={(item, index) => {
+          keyExtractor={(item) => {
             return item.id;
           }}
           alwaysBounceVertical={false}
@@ -60,18 +52,6 @@ const styles = StyleSheet.create({
     paddingTop: 50,
     paddingHorizontal: 15,
     justifyContent: "space-evenly"
-  },
-  inputContainer: {
-    height: 40,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center"
-  },
-  textInput: {
-    borderWidth: 1,
-    borderColor: "gray",
-    width: "70%",
-    padding: 8
   },
   goalContainer: {
     flex: 1
