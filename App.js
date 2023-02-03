@@ -1,5 +1,7 @@
 import {useState} from 'react'
-import { Button, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import { Button, FlatList, StyleSheet, Text, TextInput, View } from "react-native";
+
+import GoalItem from './components/GoalItem';
 
 export default function App() {
   // The enteredGoalText is the functional component's state which is updated through the 
@@ -13,9 +15,13 @@ export default function App() {
   }
   
   function addGoalHandler() {
-    console.log('The entered text: ', enteredGoalText);
-    setGoals(currentGoals => [...currentGoals, enteredGoalText]);
-    console.log('All the goals: ', goals);
+    setGoals(currentGoals => [
+      ...currentGoals, 
+      {
+        text: enteredGoalText,
+        id: Math.random().toString()
+      }
+    ]);
   }
 
   return (
@@ -32,16 +38,17 @@ export default function App() {
         />
       </View>
       <View style={styles.goalContainer}>
-        <ScrollView>
-          <Text style={styles.goalList}>The goal list: </Text>
-          {goals.map((goal, index) => {
-            return (
-              <View key={index} style={styles.listItem}>
-                <Text style={styles.text}>{goal}</Text>
-              </View>
-            )
-          })}
-        </ScrollView>
+        <Text style={styles.goalList}>The goal list: </Text>
+        <FlatList 
+          data={goals}
+          renderItem={(goalData) => {
+            return <GoalItem text={goalData.item.text}/>
+          }}  
+          keyExtractor={(item, index) => {
+            return item.id;
+          }}
+          alwaysBounceVertical={false}
+        />
       </View>
     </View>
   );
@@ -75,15 +82,5 @@ const styles = StyleSheet.create({
     marginTop: 23,
     paddingTop: 10,
     fontWeight: "bold"
-  },
-  listItem: {
-    backgroundColor: "purple",
-    borderRadius: 5,
-    padding: 10,
-    marginVertical: 5,
-    alignSelf: "flex-start"
-  },
-  text: {
-    color: "white",
   }
 });
