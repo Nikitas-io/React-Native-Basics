@@ -10,11 +10,15 @@ export default function App() {
   // The goals state holds an array of all the goals.
   const [goals, setGoals] = useState([]);
   
-  function startAddGoalHandler() {
+  function openModal() {
     setModalVisibility(true);
+  }
+  function closeModal() {
+    setModalVisibility(false);
   }
 
   function addGoalHandler(enteredGoalText) {
+    // Add a new goal to the current goals.
     setGoals(currentGoals => [
       ...currentGoals, 
       {
@@ -22,6 +26,8 @@ export default function App() {
         id: Math.random().toString()
       }
     ]);
+    // Close the modal.
+    closeModal();
   }
 
   function deleteGoalHandler(id) {
@@ -35,12 +41,12 @@ export default function App() {
       <Button 
         title="Add new goal" 
         color="purple"
-        onPress={startAddGoalHandler}
+        onPress={openModal}
       />
       {
         modalVisibility
         &&
-        <GoalInput visible={modalVisibility} addGoalHandler={addGoalHandler}/>
+        <GoalInput visible={modalVisibility} addGoalHandler={addGoalHandler} closeModal={closeModal}/>
       }
       <View style={styles.goalContainer}>
         <Text style={styles.goalList}>The goal list: </Text>
