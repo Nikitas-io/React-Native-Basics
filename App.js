@@ -5,10 +5,15 @@ import GoalInput from './components/GoalInput';
 import GoalItem from './components/GoalItem';
 
 export default function App() {
-  
+  // The visibility state of the add new goal modal.
+  const [modalVisibility, setModalVisibility] = useState(false);
   // The goals state holds an array of all the goals.
   const [goals, setGoals] = useState([]);
   
+  function startAddGoalHandler() {
+    setModalVisibility(true);
+  }
+
   function addGoalHandler(enteredGoalText) {
     setGoals(currentGoals => [
       ...currentGoals, 
@@ -27,8 +32,16 @@ export default function App() {
 
   return (
     <View style={styles.appContainer}>
-      <Button title="Add new goal" color="purple"/>
-      <GoalInput addGoalHandler={addGoalHandler}/>
+      <Button 
+        title="Add new goal" 
+        color="purple"
+        onPress={startAddGoalHandler}
+      />
+      {
+        modalVisibility
+        &&
+        <GoalInput visible={modalVisibility} addGoalHandler={addGoalHandler}/>
+      }
       <View style={styles.goalContainer}>
         <Text style={styles.goalList}>The goal list: </Text>
         <FlatList 
