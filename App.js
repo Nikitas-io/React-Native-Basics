@@ -1,5 +1,6 @@
 import {useState} from 'react'
 import { FlatList, StyleSheet, Text, View, Button } from "react-native";
+import { StatusBar } from 'expo-status-bar';
 
 import GoalInput from './components/GoalInput';
 import GoalItem from './components/GoalItem';
@@ -37,31 +38,34 @@ export default function App() {
   }
 
   return (
-    <View style={styles.appContainer}>
-      <Button 
-        title="Add new goal" 
-        color="purple"
-        onPress={openModal}
-      />
-      {
-        modalVisibility
-        &&
-        <GoalInput visible={modalVisibility} addGoalHandler={addGoalHandler} closeModal={closeModal}/>
-      }
-      <View style={styles.goalContainer}>
-        <Text style={styles.goalList}>The goal list: </Text>
-        <FlatList 
-          data={goals}
-          renderItem={(goalData) => {
-            return <GoalItem text={goalData.item.text} onDeleteItem={deleteGoalHandler} id={goalData.item.id} />
-          }}  
-          keyExtractor={(item) => {
-            return item.id;
-          }}
-          alwaysBounceVertical={false}
+    <>
+      <StatusBar style="light" />
+      <View style={styles.appContainer}>
+        <Button 
+          title="Add new goal" 
+          color="purple"
+          onPress={openModal}
         />
+        {
+          modalVisibility
+          &&
+          <GoalInput visible={modalVisibility} addGoalHandler={addGoalHandler} closeModal={closeModal}/>
+        }
+        <View style={styles.goalContainer}>
+          <Text style={styles.goalListHeader}>The goal list: </Text>
+          <FlatList 
+            data={goals}
+            renderItem={(goalData) => {
+              return <GoalItem text={goalData.item.text} onDeleteItem={deleteGoalHandler} id={goalData.item.id} />
+            }}  
+            keyExtractor={(item) => {
+              return item.id;
+            }}
+            alwaysBounceVertical={false}
+          />
+        </View>
       </View>
-    </View>
+    </>
   );
 }
 
@@ -75,11 +79,12 @@ const styles = StyleSheet.create({
   goalContainer: {
     flex: 1
   },
-  goalList: {
+  goalListHeader: {
     borderTopColor: "gray",
     borderTopWidth: 1,
     marginTop: 23,
     paddingTop: 10,
-    fontWeight: "bold"
+    fontWeight: "bold",
+    color: "white"
   }
 });
